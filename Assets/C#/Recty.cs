@@ -22,10 +22,10 @@ public class Mouse : MonoBehaviour
     [Header("effects")]
     public GameObject dieEffect_prefab;
 
-    //private void OnMouseDown()
-    //{
-    //    Die();
-    //}
+    private void OnMouseDown()
+    {
+        Die();
+    }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "MainCamera")

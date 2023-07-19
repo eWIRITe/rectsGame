@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
+    public static GameController _GC;
+
     public GameObject Loose_screen;
 
     public TMP_Text timer_text;
@@ -15,7 +17,17 @@ public class GameController : MonoBehaviour
     public float start_timer;
     private float _timer;
 
-    public static int _score = 0;
+    public static int Score;
+
+    public static int _score
+    {
+        get { return Score; }
+        set { 
+            Score = value;
+            _GC.update_scoreText(value);
+        }
+    }
+
     public static bool playing = true;
 
     [Space, Header("raycast")]
@@ -23,7 +35,9 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        _GC = this;
         _timer = start_timer;
+        _score = 0;
     }
     private void FixedUpdate()
     {
@@ -37,7 +51,6 @@ public class GameController : MonoBehaviour
         }
 
         update_timerText();
-        update_scoreText();
     }
 
     private void Update()
@@ -46,29 +59,29 @@ public class GameController : MonoBehaviour
         {
             Application.Quit();
         }
-        else if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(mousePosition, new Vector3(0, 0, 1), 1000.0f, mouse_raycastLayer);
+        //else if (Input.GetMouseButtonDown(0))
+        //{
+        //    Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //    RaycastHit2D hit = Physics2D.Raycast(mousePosition, new Vector3(0, 0, 1), 1000.0f, mouse_raycastLayer);
 
-            Debug.DrawRay(mousePosition, new Vector3(0, 0, 1));
+        //    Debug.DrawRay(mousePosition, new Vector3(0, 0, 1));
 
-            if (hit.collider != null)
-            {
-                if (hit.collider.gameObject.tag == "Mouse")
-                {
-                    hit.collider.gameObject.GetComponent<Mouse>().Die();
-                }
-                else
-                {
-                    Debug.Log("if(hit.collider.CompareTag('Mouse'))" + hit.collider.gameObject.tag);
-                }
-            }
-            else
-            {
-                Debug.Log(" if (hit.collider != null)");
-            }
-        }
+        //    if (hit.collider != null)
+        //    {
+        //        if (hit.collider.gameObject.tag == "Mouse")
+        //        {
+        //            hit.collider.gameObject.GetComponent<Mouse>().Die();
+        //        }
+        //        else
+        //        {
+        //            Debug.Log("if(hit.collider.CompareTag('Mouse'))" + hit.collider.gameObject.tag);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Debug.Log(" if (hit.collider != null)");
+        //    }
+        //}
     }
 
     public void Loose()
@@ -91,8 +104,8 @@ public class GameController : MonoBehaviour
     {
         timer_text.text = "left: " + Math.Round(_timer).ToString();
     }
-    private void update_scoreText()
+    public void update_scoreText(int value)
     {
-        score_text.text = "score: " + _score.ToString();
+        score_text.text = "score: " + value.ToString();
     }
 }
