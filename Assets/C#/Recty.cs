@@ -22,10 +22,10 @@ public class Mouse : MonoBehaviour
     [Header("effects")]
     public GameObject dieEffect_prefab;
 
-    private void OnMouseDown()
-    {
-        Die();
-    }
+    //private void OnMouseDown()
+    //{
+    //    Die();
+    //}
     private void OnTriggerExit2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "MainCamera")
@@ -87,7 +87,7 @@ public class Mouse : MonoBehaviour
             return;
         }
 
-        _audioSourse.PlayOneShot(_onMouseDie_audioClip);
+        _audioSourse.Play();
 
         GameObject dieAnim = Instantiate(dieEffect_prefab, transform.position, Quaternion.identity);
         Destroy(dieAnim, 2.0f);
